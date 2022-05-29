@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# After running this script, you will need to zipalign and sign the apk yourself:
+# https://developer.android.com/studio/build/building-cmdline#sign_cmdline
+
+# Original solution and more details in this StackOverflow's answer:
+# https://stackoverflow.com/a/69893912
+
 if (( $# != 2 )); then
     echo "Usage : convert_apk.sh <src.apk> <dst.apk>"
     exit
