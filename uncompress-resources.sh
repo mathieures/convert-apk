@@ -19,7 +19,7 @@
 # https://stackoverflow.com/a/69893912
 
 if (( $# != 2 )); then
-    echo "Usage : convert_apk.sh <src.apk> <dst.apk>"
+    echo "Usage : $0 <src.apk> <dst.apk>"
     exit
 fi
 
