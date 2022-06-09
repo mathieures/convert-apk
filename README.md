@@ -12,13 +12,17 @@ Or within Android:
 
 - In Windows cmd (.bat extensions are optional):  
     `make.bat <impossible_to_install.apk> <converted.apk>`  
-    OR  
-    `uncompress-resources.bat <impossible_to_install.apk> <uncompressed.apk>`  
-    `align-and-sign.bat <uncompressed.apk> <converted.apk>`
-- In Bash:  
-    `chmod +x uncompress-resources.sh align-and-sign.sh`  
-    `./uncompress-resources.sh <impossible_to_install.apk> <uncompressed.apk>`  
-    `./align-and-sign.sh <uncompressed.apk> <converted.apk>`
+    OR
+    ```batch
+    uncompress-resources.bat <impossible_to_install.apk> <uncompressed.apk>
+    align-and-sign.bat <uncompressed.apk> <converted.apk>
+    ```
+- In Bash:
+    ```bash
+    chmod +x uncompress-resources.sh align-and-sign.sh
+    ./uncompress-resources.sh <impossible_to_install.apk> <uncompressed.apk>
+    ./align-and-sign.sh <uncompressed.apk> <converted.apk>
+    ```
 
 
 # Installation of converted app
