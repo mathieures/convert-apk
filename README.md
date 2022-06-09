@@ -17,7 +17,7 @@ Or within Android:
     `align-and-sign.bat <uncompressed.apk> <converted.apk>`
 - In Bash:  
     `chmod +x uncompress-resources.sh align-and-sign.sh`  
-    `./uncompress-resources.sh <impossible_to_install.apk> <uncompressed.apk>`
+    `./uncompress-resources.sh <impossible_to_install.apk> <uncompressed.apk>`  
     `./align-and-sign.sh <uncompressed.apk> <converted.apk>`
 
 
