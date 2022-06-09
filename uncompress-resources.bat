@@ -13,14 +13,25 @@ exit /b
 set src=%1
 set unzipped=%src%.unzipped
 set dst=%2
+set dst_zip=%dst%.zip
 
 echo unzipping into %unzipped%
 md %unzipped% 2>NUL
 tar -P -xf %src% -C %unzipped%
 
-echo zipping back into %dst%
-tar -P --exclude 'resources.arsc' -a -cf %dst%.zip -C %unzipped% *
-rename %dst%.zip %dst%
+
+echo zipping back into %dst% (slow process)
+rem If PowerShell 7 is available, use it
+where pwsh.exe >NUL 2>&1
+if %errorlevel% equ 0 (
+    set ps=pwsh.exe
+) else (
+    set ps=powershell.exe
+)
+
+rem Compress everything but resources.arsc
+call %ps% -nol -noni -nop -c Compress-Archive (Get-ChildItem %unzipped% -Exclude 'resources.arsc') %dst_zip% ; Compress-Archive %unzipped%\resources.arsc -Update %dst_zip% -CompressionLevel NoCompression
+rename %dst_zip% %dst%
 
 echo deleting %unzipped%
 rmdir /s /q %unzipped%
