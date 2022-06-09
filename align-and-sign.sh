@@ -13,7 +13,7 @@ keyname=temp_key.jks
 
 
 echo "creating key; you can enter dummy credentials"
-keytool -genkey -v -keystore $keyname -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
+keytool -genkey -v -keystore $keyname -keyalg RSA -keysize 2048 -validity 10000
 
 # TODO: fill info automatically
 
