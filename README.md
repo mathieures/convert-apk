@@ -37,6 +37,14 @@ You have three ways of doing this:
 Note that the last two will probably make Google Play Protect throw a warning during installation.
 
 
+# Tweaking
+
+You can change several things in the scripts to customize them.
+- In align-and-sign.bat:
+    - the key path and the key password, to use an already existing one
+    - the first letter of "yes" in your language could be different from the ones supported; the line where you can change this is marked in the file
+
+
 # Requirements
 
 - [Android Studio command line tools](https://developer.android.com/studio#command-tools): `zipalign`, `keytool`, `apksigner`
