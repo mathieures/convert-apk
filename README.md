@@ -11,7 +11,7 @@ Or within Android:
 # Usage
 
 - In Windows cmd (.bat extensions are optional):  
-    `make.bat <impossible_to_install.apk> <converted.apk>`  
+    `convert-apk.bat <impossible_to_install.apk> <converted.apk>`  
     OR
     ```batch
     uncompress-resources.bat <impossible_to_install.apk> <uncompressed.apk>
