@@ -56,12 +56,12 @@ type %localeinfo% | find "fr;">NUL && goto french_yes
 goto other_yes
 
 :english_yes
-echo english detected, using 'y' as yes
+echo English detected, using 'y' as yes
 >>%dummycred% echo; y
 goto after_yes
 
 :french_yes
-echo other language detected, using 'o' as yes
+echo French language detected, using 'o' as yes
 >>%dummycred% echo; o
 goto after_yes
 
