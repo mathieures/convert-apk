@@ -17,25 +17,66 @@
 
 # Original solution by T Aria:
 # https://stackoverflow.com/a/69893912
+compress_with_tar()
+{
+    dst_zip="$dst.zip"
+    # tar -C does not work on Git Bash so we have to cd
+    pushd $unzipped >/dev/null
+    tar -P -acf $dst_zip --options compression-level=0 *
+    # Move the zip file outside
+    wd=$(pwd)
+    popd >/dev/null
+    # Move and rename the file
+    mv "$wd/$dst_zip" $dst
+}
 
-if (( $# != 2 )); then
-    echo "Usage : $0 <src.apk> <dst.apk>"
+compress_with_zip()
+{
+    zip -n "resources.arsc" -qr $dst $unzipped/*
+}
+
+
+# If < 1 arg, 2 args and no '-t' or > 3 args
+if [ $# -lt 2 ] || [[ $# -eq 3 && $1 != '-t' ]] || [ $# -gt 3 ]; then
+    echo "Usage : $0 [-t] <src.apk> <dst.apk>"
+    echo '   -t : use tar instead of zip (no compression)'
     exit
 fi
 
+use_tar=0
+if [ $1 == '-t' ]; then
+    use_tar=1
+    shift;
+fi
+
+
 src=$1
-folder="unzipped_$src"
+unzipped="$src.unzipped"
 dst=$2
 
 
-echo "unzipping into $folder (slow process)"
-unzip -q -o $src -d $folder
+echo "unzipping into $unzipped"
+unzip -q -o $src -d $unzipped
 
-echo "zipping back into $dst (slow process)"
-zip -n "resources.arsc" -qr $dst $folder/*
+echo "zipping back into $dst"
+if (( use_tar )); then
+    echo 'using tar'
+    compress_with_tar
+else
+    echo 'using zip'
+    compress_with_zip
+    if [ $? ]; then
+        echo '[fatal] zip command not found; consider running with -t flag'
+        exit 1
+    fi
+    # if [ compress_with_zip ]; then
+    #     echo '[fatal] zip command not found; consider running with -t flag'
+    #     exit 1
+    # fi
+fi
 
-echo "deleting $folder"
-rm -rf $folder
+echo "deleting $unzipped"
+rm -rf $unzipped
 
 
 echo 'done'
