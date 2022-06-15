@@ -7,11 +7,15 @@ This repository is a set of scripts written to solved an error appearing when tr
 Or within Android:  
 `There was a problem parsing the package`
 
+I originally found the solution thanks to [this comment by T Aria on StackOverflow](https://stackoverflow.com/a/69893912).
+
 
 # Usage
 
-- In Windows cmd (.bat extensions are optional):  
-    `convert-apk.bat <impossible_to_install.apk> <converted.apk>`  
+- In Windows cmd:  
+    ```batch
+    convert-apk.bat <impossible_to_install.apk> <converted.apk>
+    ```
     OR
     ```batch
     uncompress-resources.bat <impossible_to_install.apk> <uncompressed.apk>
@@ -23,6 +27,11 @@ Or within Android:
     ./uncompress-resources.sh <impossible_to_install.apk> <uncompressed.apk>
     ./align-and-sign.sh <uncompressed.apk> <converted.apk>
     ```
+- In Git Bash:
+    ```bash
+    ./uncompress-resources.sh -t <impossible_to_install.apk> <uncompressed.apk>
+    ./align-and-sign.sh <uncompressed.apk> <converted.apk>
+    ```
 
 
 # Installation of converted app
@@ -31,7 +40,7 @@ You have three ways of doing this:
 - Install directly the app with adb:  
     `adb install --no-incremental <converted.apk>`
 - Transfer the file with adb then install it manually:  
-    `adb push <converted.apk> /sdcard/Download` - will put the file in the Download folder of the internal memory
+    `adb push <converted.apk> /sdcard/Download` - will put the file in the Download folder of the *internal* memory
 - Transfer it from the file explorer and install it manually
 
 Note that the last two will probably make Google Play Protect throw a warning during installation.
@@ -49,8 +58,10 @@ You can change several things in the scripts to customize them.
 
 - [Android Studio command line tools](https://developer.android.com/studio#command-tools): `zipalign`, `keytool`, `apksigner`
 - Specifically on Windows:
-    - `PowerShell 5` which should be included by default or higher (better)  
+    - `PowerShell 5`, included by default (but `PowerShell 7` is better)  
     OR
-    - WSL to execute the bash scripts
+    - Git Bash (use `-t` for uncompress-resources.sh)  
+    OR
+    - WSL
 - Specifically on Linux:
     - `zip` and `unzip` commands
