@@ -14,11 +14,11 @@ I originally found the solution thanks to [this comment by T Aria on StackOverfl
 
 - In Windows cmd:  
     ```batch
-    convert-apk.bat <impossible_to_install.apk> <converted.apk>
+    convert-apk.bat [-t] <impossible_to_install.apk> <converted.apk>
     ```
     OR
     ```batch
-    uncompress-resources.bat <impossible_to_install.apk> <uncompressed.apk>
+    uncompress-resources.bat [-t] <impossible_to_install.apk> <uncompressed.apk>
     align-and-sign.bat <uncompressed.apk> <converted.apk>
     ```
 - In Bash:
@@ -56,11 +56,12 @@ You can change several things in the scripts to customize them.
 
 # Requirements
 
-- [Android Studio command line tools](https://developer.android.com/studio#command-tools): `zipalign`, `keytool`, `apksigner`
+- [Android Studio command line tools](https://developer.android.com/studio#command-tools): `zipalign` and `apksigner` must be in your PATH
+- [Java](https://www.oracle.com/java/technologies/downloads/): `keytool` must be in your PATH
 - Specifically on Windows:
-    - `PowerShell 5`, included by default (but `PowerShell 7` is better)  
+    - `PowerShell 5` (included by default) or `PowerShell 7` (faster)  
     OR
-    - Git Bash (use `-t` for uncompress-resources.sh)  
+    - Git Bash (use `-t` for `uncompress-resources.sh`)  
     OR
     - WSL
 - Specifically on Linux:
