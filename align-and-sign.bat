@@ -24,16 +24,16 @@ rem File containing locale info
 set localeinfo=%tmp%\locale_info
 
 
-echo aligning %src% into %aligned_apk%
+echo Aligning %src% into %aligned_apk%
 zipalign -p 4 %src% %aligned_apk%
 
 
 if exist %key% (
-    echo using existing key %key%
+    echo Using existing key %key%
     goto sign
 )
 
-echo creating key %key%
+echo Creating key %key%
 rem Newlines to pass the prompts
  >%dummycred% echo %password%
 >>%dummycred% echo %password%
@@ -45,9 +45,9 @@ rem Newlines to pass the prompts
 >>%dummycred% echo;
 
 rem Take into account the language to reply the local "yes"
-echo determining locale info...
+echo Determining locale info...
 if exist %localeinfo% (
-    echo using existing %localeinfo%
+    echo  using existing %localeinfo%
 ) else (
     systeminfo > %localeinfo%
 )
@@ -57,18 +57,18 @@ type %localeinfo% | find "fr;">NUL && goto french_yes
 goto other_yes
 
 :english_yes
-echo English detected, using 'y' as yes
+echo  English detected, using 'y' as yes
 >>%dummycred% echo; y
 goto after_yes
 
 :french_yes
-echo French language detected, using 'o' as yes
+echo  French language detected, using 'o' as yes
 >>%dummycred% echo; o
 goto after_yes
 
 :other_yes
 rem The German yes starts with 'j'; feel free to change if it doesn't work
-echo other language detected, using 'j' as yes
+echo  other language detected, using 'j' as yes
 >>%dummycred% echo; j
 goto after_yes
 
@@ -78,7 +78,7 @@ type %dummycred% | keytool -genkey -keystore %key% -keyalg RSA -keysize 2048 -va
 
 
 :sign
-echo signing %aligned_apk% into %dst%
+echo Signing %aligned_apk% into %dst%
 rem No space before the pipe, else it is picked up by echo
 echo %password%| apksigner sign --ks %key% --out %dst% %aligned_apk%
 
@@ -89,4 +89,4 @@ del /q %signing_details%
 
 
 :end
-echo done
+echo Done

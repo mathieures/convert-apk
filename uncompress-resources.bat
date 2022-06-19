@@ -23,28 +23,28 @@ set dst=%2
 set dst_zip=%dst%.zip
 
 
-echo unzipping into %unzipped%
+echo Unzipping into %unzipped%
 md %unzipped% 2>NUL
 tar -P -xf %src% -C %unzipped%
 
 
-echo zipping back into %dst%
-if "%use_tar%" == "true" (call :use_tar) else call :use_ps
+echo Zipping back into %dst%
+if "%use_tar%" == "true" (call :compress_with_tar) else call :compress_with_ps
 goto renaming
 
-:use_tar
-echo using tar
+:compress_with_tar
+echo  using tar
 tar -P -acf %dst_zip% --options compression-level=0 -C %unzipped% *
 exit /b
 
-:use_ps
+:compress_with_ps
 rem If PowerShell 7 is available, use it
 where pwsh.exe >NUL 2>&1
 if %errorlevel% equ 0 (
-    echo using pwsh.exe
+    echo  using pwsh.exe
     set ps=pwsh.exe
 ) else (
-    echo using powershell.exe
+    echo  using powershell.exe
     set ps=powershell.exe
 )
 rem Compress everything but resources.arsc
@@ -58,9 +58,9 @@ if exist %dst% del /q %dst%
 rename %dst_zip% %~nx2
 
 
-echo deleting %unzipped%
+echo Deleting %unzipped%
 rmdir /s /q %unzipped%
 
 
 :end
-echo done
+echo Done
