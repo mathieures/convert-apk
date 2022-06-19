@@ -52,8 +52,10 @@ if exist %localeinfo% (
     systeminfo > %localeinfo%
 )
 
+
 type %localeinfo% | find "en;">NUL && goto english_yes
 type %localeinfo% | find "fr;">NUL && goto french_yes
+type %localeinfo% | find "es;">NUL && goto spanish_yes
 goto other_yes
 
 :english_yes
@@ -64,6 +66,11 @@ goto after_yes
 :french_yes
 echo  French language detected, using 'o' as yes
 >>%dummycred% echo; o
+goto after_yes
+
+:spanish_yes
+echo  Spanish language detected, using 's' as yes
+>>%dummycred% echo; s
 goto after_yes
 
 :other_yes
