@@ -12,6 +12,7 @@ exit /b
 set src=%1
 set aligned_apk=%src%.aligned
 set dst=%2
+set signing_details=%dst%.idsig
 
 rem Change these if you use a custom key
 set key=%tmp%\signing_key
@@ -82,8 +83,9 @@ rem No space before the pipe, else it is picked up by echo
 echo %password%| apksigner sign --ks %key% --out %dst% %aligned_apk%
 
 
-echo deleting %aligned_apk%
+echo Deleting %aligned_apk% and signing details
 del /q %aligned_apk%
+del /q %signing_details%
 
 
 :end
