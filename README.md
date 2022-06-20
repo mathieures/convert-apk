@@ -49,7 +49,7 @@ Note that the last two will probably make Google Play Protect throw a warning du
 # Tweaking
 
 You can change several things in the scripts to customize them.
-- In align-and-sign.bat:
+- In `align-and-sign.bat` and `align-and-sign.sh`:
     - the key path and the key password, to use an already existing one
     - the first letter of "yes" in your language could be different from the ones supported; the line where you can change this is marked in the file
 
