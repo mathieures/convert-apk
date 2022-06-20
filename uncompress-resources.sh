@@ -55,15 +55,15 @@ unzipped="$src.unzipped"
 dst=$2
 
 
-echo "unzipping into $unzipped"
+echo "Unzipping into $unzipped"
 unzip -q -o $src -d $unzipped
 
-echo "zipping back into $dst"
-if (( use_tar )); then
-    echo 'using tar'
+echo "Zipping back into $dst"
+if (( $use_tar )); then
+    echo ' using tar'
     compress_with_tar
 else
-    echo 'using zip'
+    echo ' using zip'
     compress_with_zip
     if [ $? ]; then
         echo '[fatal] zip command not found; consider running with -t flag'
@@ -75,8 +75,8 @@ else
     # fi
 fi
 
-echo "deleting $unzipped"
+echo "Deleting $unzipped"
 rm -rf $unzipped
 
 
-echo 'done'
+echo 'Done'
