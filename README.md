@@ -23,11 +23,20 @@ I originally found the solution thanks to [this comment by T Aria on StackOverfl
     ```
 - In Bash:
     ```bash
+    chmod +x convert-apk.sh
+    ./convert-apk.sh [-t] <impossible_to_install.apk> <converted.apk>
+    ```
+    OR
+    ```bash
     chmod +x uncompress-resources.sh align-and-sign.sh
-    ./uncompress-resources.sh <impossible_to_install.apk> <uncompressed.apk>
+    ./uncompress-resources.sh [-t] <impossible_to_install.apk> <uncompressed.apk>
     ./align-and-sign.sh <uncompressed.apk> <converted.apk>
     ```
 - In Git Bash:
+    ```bash
+    ./convert-apk.sh -t <impossible_to_install.apk> <converted.apk>
+    ```
+    OR
     ```bash
     ./uncompress-resources.sh -t <impossible_to_install.apk> <uncompressed.apk>
     ./align-and-sign.sh <uncompressed.apk> <converted.apk>
