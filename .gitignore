@@ -1,1 +1,5 @@
-nova-launcher-prime.apk.unzipped
+.gitignore
+args.sh
+test*
+*.apk
+*.zip
