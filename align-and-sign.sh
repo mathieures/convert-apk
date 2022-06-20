@@ -6,26 +6,69 @@ if (( $# != 2 )); then
 fi
 
 src=$1
-temp=temp_$dst
+aligned_apk=$src.aligned
 dst=$2
+signing_details=$dst.idsig
 
-keyname=temp_key.jks
+# Change these if you use a custom key
+key=/tmp/signing_key
+password=password
 
-
-echo "creating key; you can enter dummy credentials"
-keytool -genkey -v -keystore $keyname -keyalg RSA -keysize 2048 -validity 10000
-
-# TODO: fill info automatically
-
-echo "aligning $src into $temp"
-zipalign -v -p 4 $src $temp
-
-echo "signing $temp into $dst"
-apksigner sign --ks $keyname --out $dst $temp
-
-# echo "deleting key and $temp"
-# rm -f $keyname
-# rm -f $temp
+# Files with dummy credentials in case of a new key
+dummycred=/tmp/dummy_cred
 
 
-echo 'done'
+echo "Aligning $src into $aligned_apk"
+if [ -a $aligned_apk ]; then
+    rm -r $aligned_apk
+fi
+zipalign -p 4 $src $aligned_apk
+
+
+if [ -a $key ]; then
+    echo "Using existing key $key"
+else
+    echo 'Creating key'
+    # Newlines to pass the prompts
+     >$dummycred echo "$password"
+    >>$dummycred echo "$password"
+    >>$dummycred echo -ne "\n\n\n\n\n\n"
+
+    # First letter of 'yes' in English, French, Spanish and German.
+    # Feel free to change letters if these don't work
+    yes_chars=(y o s j)
+
+    # Try to create a key with the character until it works
+    for yes_char in ${yes_chars[*]}; do
+        echo " testing with '$yes_char' as 'yes'..."
+        >> $dummycred echo $yes_char
+
+        cat $dummycred | keytool -genkey -keystore $key -keyalg RSA -keysize 2048 -validity 10000 > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo ' fail'
+            # Delete the last line of the file
+            sed -i '$ d' $dummycred
+        else
+            echo ' success'
+            break
+        fi
+    done
+fi
+
+
+echo "Signing $aligned_apk into $dst"
+# Quick hack to know if the script is run on Git Bash
+which 'cmd.exe' >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    apksigner_path=apksigner.bat
+else
+    apksigner_path=apksigner
+fi
+echo "$password" | $apksigner_path sign --ks $key --out $dst $aligned_apk > /dev/null 2>&1
+
+echo "Deleting $aligned_apk and signing details"
+rm -f $aligned_apk
+rm -f $signing_details
+
+
+echo 'Done'
