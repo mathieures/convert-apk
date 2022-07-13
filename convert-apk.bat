@@ -12,13 +12,13 @@ if not "%3"=="" goto usage
 goto begin
 
 :usage
-echo Usage : %0 [-t] ^<src.apk^> ^<dst.apk^>
+echo Usage : %~nx0 [-t] ^<src.apk^> ^<dst.apk^>
 echo    -t : use tar instead of powershell (no compression)
 exit /b
 
 :begin
 set src=%1
-set unaligned_unsigned=%src%.tmp
+set unaligned_unsigned=%src%.zip
 set dst=%2
 
 if "%use_tar%" == "true" (
@@ -26,7 +26,7 @@ if "%use_tar%" == "true" (
 ) else (
 	call uncompress-resources.bat %src% %unaligned_unsigned%
 )
+call align-and-sign.bat %unaligned_unsigned% %dst%
+
 rem Delete the temporary file
 del %unaligned_unsigned%
-
-call align-and-sign.bat %unaligned_unsigned% %dst%
