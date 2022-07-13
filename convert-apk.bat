@@ -18,12 +18,15 @@ exit /b
 
 :begin
 set src=%1
-set unzipped=%src%.unzipped
+set unaligned_unsigned=%src%.tmp
 set dst=%2
 
 if "%use_tar%" == "true" (
-	call uncompress-resources.bat -t %src% %unzipped%
+	call uncompress-resources.bat -t %src% %unaligned_unsigned%
 ) else (
-	call uncompress-resources.bat %src% %unzipped%
+	call uncompress-resources.bat %src% %unaligned_unsigned%
 )
-call align-and-sign.bat %unzipped% %dst%
+rem Delete the temporary file
+del %unaligned_unsigned%
+
+call align-and-sign.bat %unaligned_unsigned% %dst%
