@@ -1,4 +1,5 @@
 @echo off
+setlocal
 
 rem If -t is present
 set "use_tar="

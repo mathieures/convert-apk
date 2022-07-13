@@ -1,4 +1,5 @@
 @echo off
+setlocal
 
 if "%2"=="" goto usage
 if not "%3"=="" goto usage
