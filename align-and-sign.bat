@@ -1,11 +1,12 @@
 @echo off
+setlocal
 
 if "%2"=="" goto usage
 if not "%3"=="" goto usage
 goto begin
 
 :usage
-echo Usage : %0 ^<src.apk^> ^<dst.apk^>
+echo Usage : %~nx0 ^<src.apk^> ^<dst.apk^>
 exit /b
 
 :begin

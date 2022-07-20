@@ -9,6 +9,8 @@ Or within Android:
 
 I originally found the solution thanks to [this comment by T Aria on StackOverflow](https://stackoverflow.com/a/69893912).
 
+[Full example at the bottom.](#full-example)
+
 
 # Usage
 
@@ -75,3 +77,31 @@ You can change several things in the scripts to customize them.
     - WSL
 - Specifically on Linux:
     - `zip` and `unzip` commands
+
+
+# Full example
+
+Suppose a `example-app.apk` that is impossible to install:
+
+- In Windows cmd:
+    ```batch
+    git clone https://github.com/mathieures/convert-apk.git
+    cd convert-apk
+    copy ..\example-app.apk .
+    convert-apk.bat example-app.apk new-example-app.apk
+    ```
+- In Git Bash:
+    ```bash
+    git clone https://github.com/mathieures/convert-apk.git
+    cd convert-apk
+    cp ../example-app.apk .
+    ./convert-apk.sh -t example-app.apk new-example-app.apk
+    ```
+- On Linux:
+    ```bash
+    git clone https://github.com/mathieures/convert-apk.git
+    cd convert-apk
+    cp ../example-app.apk .
+    chmod +x convert-apk.sh
+    ./convert-apk.sh example-app.apk new-example-app.apk
+    ```
