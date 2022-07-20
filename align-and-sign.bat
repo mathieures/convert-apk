@@ -1,8 +1,8 @@
 @echo off
 setlocal
 
-if "%2"=="" goto usage
-if not "%3"=="" goto usage
+if "%~2"=="" goto usage
+if not "%~3"=="" goto usage
 goto begin
 
 :usage
@@ -10,10 +10,10 @@ echo Usage : %~nx0 ^<src.apk^> ^<dst.apk^>
 exit /b
 
 :begin
-set src=%1
-set aligned_apk=%src%.aligned
-set dst=%2
-set signing_details=%dst%.idsig
+set "src=%~1"
+set "aligned_apk=%src%.aligned"
+set "dst=%~2"
+set "signing_details=%dst%.idsig"
 
 rem Change these if you use a custom key
 set key=%tmp%\signing_key
@@ -26,7 +26,7 @@ set localeinfo=%tmp%\locale_info
 
 
 echo Aligning %src% into %aligned_apk%
-zipalign -p 4 %src% %aligned_apk%
+zipalign -p 4 "%src%" "%aligned_apk%"
 
 
 if exist %key% (
@@ -54,9 +54,9 @@ if exist %localeinfo% (
 )
 
 
-type %localeinfo% | find "en;">NUL && goto english_yes
-type %localeinfo% | find "fr;">NUL && goto french_yes
-type %localeinfo% | find "es;">NUL && goto spanish_yes
+find "en;" %localeinfo% >NUL && goto english_yes
+find "fr;" %localeinfo% >NUL && goto french_yes
+find "es;" %localeinfo% >NUL && goto spanish_yes
 goto other_yes
 
 :english_yes
@@ -88,12 +88,12 @@ type %dummycred% | keytool -genkey -keystore %key% -keyalg RSA -keysize 2048 -va
 :sign
 echo Signing %aligned_apk% into %dst%
 rem No space before the pipe, else it is picked up by echo
-echo %password%| apksigner sign --ks %key% --out %dst% %aligned_apk%
+echo %password%| apksigner sign --ks %key% --out "%dst%" "%aligned_apk%"
 
 
 echo Deleting %aligned_apk% and signing details
-del /q %aligned_apk%
-del /q %signing_details%
+del /q "%aligned_apk%"
+del /q "%signing_details%"
 
 
 :end

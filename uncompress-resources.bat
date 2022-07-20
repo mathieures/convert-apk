@@ -3,13 +3,13 @@ setlocal
 
 rem If -t is present
 set "use_tar="
-if "%1" == "-t" (
+if "%~1" == "-t" (
     set use_tar=true
     shift
 )
 
-if "%2"=="" goto usage
-if not "%3"=="" goto usage
+if "%~2"=="" goto usage
+if not "%~3"=="" goto usage
 goto begin
 
 :usage
@@ -18,15 +18,15 @@ echo    -t : use tar instead of powershell (no compression)
 exit /b
 
 :begin
-set src=%1
-set unzipped=%src%.unzipped
-set dst=%2
-set dst_zip=%dst%.zip
+set "src=%~1"
+set "unzipped=%src%.unzipped"
+set "dst=%~2"
+set "dst_zip=%dst%.zip"
 
 
 echo Unzipping into %unzipped%
-md %unzipped% 2>NUL
-tar -P -xf %src% -C %unzipped%
+md "%unzipped%" 2>NUL
+tar -P -xf "%src%" -C "%unzipped%"
 
 
 echo Zipping back into %dst%
@@ -35,7 +35,7 @@ goto renaming
 
 :compress_with_tar
 echo  using tar
-tar -P -acf %dst_zip% --options compression-level=0 -C %unzipped% *
+tar -P -acf "%dst_zip%" --options compression-level=0 -C "%unzipped%" *
 exit /b
 
 :compress_with_ps
@@ -49,18 +49,18 @@ if %errorlevel% equ 0 (
     set ps=powershell.exe
 )
 rem Compress everything but resources.arsc
-call %ps% -nol -noni -nop -c Compress-Archive (Get-ChildItem %unzipped% -Exclude 'resources.arsc') %dst_zip% -Force ; Compress-Archive %unzipped%\resources.arsc -Update %dst_zip% -CompressionLevel NoCompression
+call %ps% -nol -noni -nop -c "Compress-Archive (Get-ChildItem ""%unzipped%"" -Exclude 'resources.arsc') ""%dst_zip%"" -Force ; Compress-Archive ""%unzipped%\resources.arsc"" -Update ""%dst_zip%"" -CompressionLevel NoCompression"
 exit /b
 
 
 :renaming
 rem Overwrite destination if it exists
-if exist %dst% del /q %dst%
-rename %dst_zip% %~nx2
+if exist "%dst%" del /q "%dst%"
+rename "%dst_zip%" "%~nx2"
 
 
 echo Deleting %unzipped%
-rmdir /s /q %unzipped%
+rmdir /s /q "%unzipped%"
 
 
 :end
