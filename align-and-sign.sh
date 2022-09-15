@@ -65,7 +65,8 @@ if [ $? -eq 0 ]; then
 else
     apksigner_path="java -jar $(which apksigner)"
 fi
-echo "$password" | $apksigner_path sign --ks $key --out $dst $aligned_apk > /dev/null 2>&1
+# SDK Version 23 is Android 6.0, lower this number if it doesn't work
+echo "$password" | $apksigner_path sign --ks $key --min-sdk-version 23 --out "$dst" "$aligned_apk" >/dev/null
 
 echo "Deleting $aligned_apk and signing details"
 rm -f $aligned_apk

@@ -88,7 +88,8 @@ type %dummycred% | keytool -genkey -keystore %key% -keyalg RSA -keysize 2048 -va
 :sign
 echo Signing %aligned_apk% into %dst%
 rem No space before the pipe, else it is picked up by echo
-echo %password%| apksigner sign --ks %key% --out "%dst%" "%aligned_apk%"
+rem SDK Version 23 is Android 6.0, lower this number if it doesn't work
+echo %password%| apksigner sign --ks %key% --min-sdk-version 23 --out "%dst%" "%aligned_apk%"
 
 
 echo Deleting %aligned_apk% and signing details
