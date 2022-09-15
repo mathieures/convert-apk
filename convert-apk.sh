@@ -8,18 +8,19 @@ if [ $# -lt 2 ] || [[ $# -eq 3 && $1 != '-t' ]] || [ $# -gt 3 ]; then
 fi
 
 use_tar=0
-if [ $1 == '-t' ]; then
+if [ "$1" == '-t' ]; then
     use_tar=1
     shift;
 fi
 
 src=$1
-unzipped=$src.unzipped
+unaligned_unsigned=$src.zip
 dst=$2
+dir=$(dirname $0)
 
-if (( $use_tar )); then
-	uncompress-resources.sh -t $src $unzipped
+if [ $use_tar -ne 0 ]; then
+	$dir/uncompress-resources.sh -t "$src" "$unaligned_unsigned"
 else
-	uncompress-resources.sh $src $unzipped
+	$dir/uncompress-resources.sh "$src" "$unaligned_unsigned"
 fi
-align-and-sign.sh $unzipped $dst
+$dir/align-and-sign.sh "$unaligned_unsigned" "$dst"

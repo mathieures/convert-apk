@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if (( $# != 2 )); then
+if [ $# -ne 2 ]; then
     echo "Usage : $0 <src.apk> <dst.apk>"
     exit
 fi
@@ -8,7 +8,7 @@ fi
 src=$1
 aligned_apk=$src.aligned
 dst=$2
-signing_details=$dst.idsig
+signing_details="$dst".idsig
 
 # Change these if you use a custom key
 key=/tmp/signing_key
@@ -19,12 +19,13 @@ dummycred=/tmp/dummy_cred
 
 
 echo "Aligning $src into $aligned_apk"
-if [ -a $aligned_apk ]; then
-    rm -r $aligned_apk
+# If the file exists, remove it
+if [ -a "$aligned_apk" ]; then
+    rm -r "$aligned_apk"
 fi
-zipalign -p 4 $src $aligned_apk
+zipalign -p 4 "$src" "$aligned_apk"
 
-
+# If the file exists
 if [ -a $key ]; then
     echo "Using existing key $key"
 else
@@ -58,11 +59,11 @@ fi
 
 echo "Signing $aligned_apk into $dst"
 # Quick hack to know if the script is run on Git Bash
-which 'cmd.exe' >/dev/null 2>&1
+which 'cmd' >/dev/null 2>&1
 if [ $? -eq 0 ]; then
     apksigner_path=apksigner.bat
 else
-    apksigner_path=apksigner
+    apksigner_path="java -jar $(which apksigner)"
 fi
 echo "$password" | $apksigner_path sign --ks $key --out $dst $aligned_apk > /dev/null 2>&1
 

@@ -27,12 +27,12 @@ compress_with_tar()
     wd=$(pwd)
     popd >/dev/null
     # Move and rename the file
-    mv "$wd/$dst_zip" $dst
+    mv "$wd/$dst_zip" "$dst"
 }
 
 compress_with_zip()
 {
-    zip -n "resources.arsc" -qr $dst $unzipped/*
+    zip -n resources.arsc -qr "$dst" "$unzipped"
 }
 
 
@@ -43,8 +43,9 @@ if [ $# -lt 2 ] || [[ $# -eq 3 && $1 != '-t' ]] || [ $# -gt 3 ]; then
     exit
 fi
 
+# Handle the -t option
 use_tar=0
-if [ $1 == '-t' ]; then
+if [ "$1" == '-t' ]; then
     use_tar=1
     shift;
 fi
@@ -56,10 +57,10 @@ dst=$2
 
 
 echo "Unzipping into $unzipped"
-unzip -q -o $src -d $unzipped
+unzip -q -o "$src" -d "$unzipped"
 
 echo "Zipping back into $dst"
-if (( $use_tar )); then
+if [ $use_tar -ne 0 ]; then
     echo ' using tar'
     compress_with_tar
 else
