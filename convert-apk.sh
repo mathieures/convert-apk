@@ -22,4 +22,4 @@ if (( $use_tar )); then
 else
 	uncompress-resources.sh $src $unzipped
 fi
-align-and-sign.bat $unzipped $dst
+align-and-sign.sh $unzipped $dst
