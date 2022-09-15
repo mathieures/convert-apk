@@ -17,6 +17,10 @@
 
 # Original solution by T Aria:
 # https://stackoverflow.com/a/69893912
+
+# Stop the program if any error occurs
+set -e
+
 compress_with_tar()
 {
     dst_zip="$dst.zip"
@@ -66,10 +70,6 @@ if [ $use_tar -ne 0 ]; then
 else
     echo ' using zip'
     compress_with_zip
-    if [ $? ]; then
-        echo '[fatal] zip command not found; consider running with -t flag'
-        exit 1
-    fi
     # if [ compress_with_zip ]; then
     #     echo '[fatal] zip command not found; consider running with -t flag'
     #     exit 1

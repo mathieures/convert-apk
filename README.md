@@ -59,10 +59,12 @@ Note that the last two will probably make Google Play Protect throw a warning du
 
 # Tweaking
 
-You can change several things in the scripts to customize them.
+You can change several things in the scripts to customize them. The lines where things can be changed are marked in the files.
+
 - In `align-and-sign.bat` and `align-and-sign.sh`:
     - the key path and the key password, to use an already existing one
-    - the first letter of "yes" in your language could be different from the ones supported; the line where you can change this is marked in the file
+    - the first letter of "yes" in your language could be different from the ones supported
+    - the default minimum SDK version for `apksigner` can be lowered if you encounter problems while signing the apk (at the cost of "security", see [the documentation](https://developer.android.com/studio/command-line/apksigner#options))
 
 
 # Requirements
@@ -102,6 +104,6 @@ Suppose a `example-app.apk` that is impossible to install:
     git clone https://github.com/mathieures/convert-apk.git
     cd convert-apk
     cp ../example-app.apk .
-    chmod +x convert-apk.sh
+    chmod +x *.sh
     ./convert-apk.sh example-app.apk new-example-app.apk
     ```

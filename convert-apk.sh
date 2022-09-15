@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Stop the program if any error occurs
+set -e
+
 # If < 1 arg, 2 args and no '-t' or > 3 args
 if [ $# -lt 2 ] || [[ $# -eq 3 && $1 != '-t' ]] || [ $# -gt 3 ]; then
     echo "Usage : $0 [-t] <src.apk> <dst.apk>"

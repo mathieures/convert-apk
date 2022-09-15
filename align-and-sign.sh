@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Stop the program if any error occurs
+set -e
+
 if [ $# -ne 2 ]; then
     echo "Usage : $0 <src.apk> <dst.apk>"
     exit
@@ -39,6 +42,8 @@ else
     # Feel free to change letters if these don't work
     yes_chars=(y o s j)
 
+    # Allow errors
+    set +e
     # Try to create a key with the character until it works
     for yes_char in ${yes_chars[*]}; do
         echo " testing with '$yes_char' as 'yes'..."
@@ -54,10 +59,15 @@ else
             break
         fi
     done
+    # Stop allowing errors
+    set -e
 fi
 
 
 echo "Signing $aligned_apk into $dst"
+
+# Allow errors
+set +e
 # Quick hack to know if the script is run on Git Bash
 which 'cmd' >/dev/null 2>&1
 if [ $? -eq 0 ]; then
@@ -65,6 +75,8 @@ if [ $? -eq 0 ]; then
 else
     apksigner_path="java -jar $(which apksigner)"
 fi
+# Stop allowing errors
+set -e
 # SDK Version 23 is Android 6.0, lower this number if it doesn't work
 echo "$password" | $apksigner_path sign --ks $key --min-sdk-version 23 --out "$dst" "$aligned_apk" >/dev/null
 
