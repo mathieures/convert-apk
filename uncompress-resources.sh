@@ -36,7 +36,7 @@ compress_with_tar()
 
 compress_with_zip()
 {
-    zip -n resources.arsc -qr "$dst" "$unzipped"
+    (cd $unzipped && zip -n resources.arsc -qr "$OLDPWD/$dst" .)
 }
 
 
